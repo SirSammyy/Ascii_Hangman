@@ -18,7 +18,7 @@ def select_random_word():
     return random.choice(list_of_words)
 
 
-def player_guess(word_to_guess, guess, current_guess_state):
+def check_players_guess(word_to_guess, guess, current_guess_state):
     """
 
     """
@@ -31,18 +31,25 @@ def player_guess(word_to_guess, guess, current_guess_state):
     return current_guess_state, turn_result
 
 
-def update_player(current_guess_state, turn_result):
+def print_current_game_state(length_of_word_to_guess, current_guess_state, previous_guess=None):
     """
 
     """
-    if turn_result:
-        print("You were correct! The new state is:")
-        print_current_state(current_guess_state)
-    else:
-        print("You were incorrect!")
+    print("The word is", length_of_word_to_guess, "characters long.")
+    print("The current game state is:")
+    print_current_guess_state(current_guess_state)
     return
 
 
-def print_current_state(current_guess_state):
+def print_current_guess_state(current_guess_state):
+    """
+
+    """
     print(" ".join(current_guess_state))
     return
+
+
+def players_guess():
+    print("Guess a letter.", end=" ")
+    guess = input()
+    return guess
