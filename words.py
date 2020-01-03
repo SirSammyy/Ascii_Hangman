@@ -12,4 +12,7 @@ list_of_words = ["Computer",
 
 
 def select_random_word():
+    """
+        Returns a random word from a pre-defined list
+    """
     return random.choice(list_of_words)
