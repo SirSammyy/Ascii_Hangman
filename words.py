@@ -18,15 +18,19 @@ def select_random_word():
     return random.choice(list_of_words)
 
 
-def check_players_guess(word_to_guess, guess, current_guess_state):
+def check_players_guess(word_to_guess, guess, current_guess_state, players_guesses):
     """
 
     """
-    turn_result = False
-    for idx, x in enumerate(word_to_guess):
-        if guess == x or guess == x.swapcase():
-            current_guess_state[idx] = x
-            turn_result = True
+    turn_result = "Wrong"
+
+    if guess in players_guesses:
+        turn_result = "Repeat"
+    else:
+        for idx, x in enumerate(word_to_guess):
+            if guess == x or guess == x.swapcase():
+                current_guess_state[idx] = x
+                turn_result = "Correct"
 
     return current_guess_state, turn_result
 

@@ -16,6 +16,8 @@ length_of_word_to_guess = len(word_to_guess)
 # Sets the current game state as a string of _, the amount of underscores is the length of the random word.
 current_guess_state = list("_" * length_of_word_to_guess)
 
+# List to hold the users guesses
+players_guesses = []
 # While loop for while a game is running
 game_loop = True
 while game_loop:
@@ -23,13 +25,16 @@ while game_loop:
     words.print_current_game_state(length_of_word_to_guess, current_guess_state)
 
     # Gets input from the player
-    user_guess = input("Guess a letter.")
+    players_guess = input("Guess a letter. ")
+    # Checks the players guess and prints an updated game state
+    current_guess_state, turn_result = words.check_players_guess(word_to_guess, players_guess, current_guess_state, players_guesses)
+    # Appends the guess to the list of already chosen guesses.
+    players_guesses.append(players_guess)
 
-    # Checks the players guess and returns an updated game state
-    current_guess_state, turn_result = words.check_players_guess(word_to_guess, user_guess, current_guess_state)
-
-    if turn_result:
+    if turn_result == "Correct":
         print("You were correct!")
-    else:
+    elif turn_result == "Repeat":
+        print("You used the letter '", players_guess, "' already.")
+    elif turn_result == "Wrong":
         print("You were incorrect! You lose a life!")
         amount_of_lives -= 1
