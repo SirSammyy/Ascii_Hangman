@@ -26,11 +26,12 @@ while game_loop:
 
     # Gets input from the player
     players_guess = input("Guess a letter. ")
-    # Checks the players guess and prints an updated game state
+    # Checks the players guess
     current_guess_state, turn_result = words.check_players_guess(word_to_guess, players_guess, current_guess_state, players_guesses)
     # Appends the guess to the list of already chosen guesses.
     players_guesses.append(players_guess)
 
+    # Checks the result of the turn
     if turn_result == "Correct":
         print("You were correct!")
     elif turn_result == "Repeat":
@@ -38,6 +39,11 @@ while game_loop:
     elif turn_result == "Wrong":
         print("You were incorrect! You lose a life!")
         amount_of_lives -= 1
+        # Checks if the user has any lives left
+        if amount_of_lives <= 0:
+            print("You have run out of lives.")
+            print("Game Over")
+            game_loop = False
 
     # Checks if the the entire word is correctly guessed
     if "".join(current_guess_state) == word_to_guess:
