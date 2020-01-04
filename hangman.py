@@ -38,3 +38,8 @@ while game_loop:
     elif turn_result == "Wrong":
         print("You were incorrect! You lose a life!")
         amount_of_lives -= 1
+
+    # Checks if the the entire word is correctly guessed
+    if "".join(current_guess_state) == word_to_guess:
+        print("You have Won!")
+        game_loop = False
