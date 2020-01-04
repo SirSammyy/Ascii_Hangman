@@ -47,9 +47,3 @@ def print_current_guess_state(current_guess_state):
     """
     print(" ".join(current_guess_state))
     return
-
-
-def players_guess():
-    print("Guess a letter.", end=" ")
-    guess = input()
-    return guess
