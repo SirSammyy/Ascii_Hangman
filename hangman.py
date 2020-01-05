@@ -26,6 +26,8 @@ def check_players_guess(word_to_guess, guess, current_guess_state, players_guess
 
     if guess in players_guesses:
         turn_result = "Repeat"
+    elif is_input_invalid(guess):
+        turn_result = "Invalid"
     else:
         for idx, x in enumerate(word_to_guess):
             if guess == x or guess == x.swapcase():
@@ -51,6 +53,13 @@ def print_current_guess_state(current_guess_state):
     """
     print(" ".join(current_guess_state))
     return
+
+
+def is_input_invalid(user_input):
+    if len(user_input) > 1:
+        return True
+    elif not user_input.isalpha():
+        return True
 
 
 def play_hangman():
@@ -82,6 +91,8 @@ def play_hangman():
             print("You were correct!")
         elif turn_result == "Repeat":
             print("You used the letter '", players_guess, "' already.")
+        elif turn_result == "Invalid":
+            print("You entered an invalid guess, you must only input a single character which must be a letter.")
         elif turn_result == "Wrong":
             print("You were incorrect! You lose a life!")
             amount_of_lives -= 1
