@@ -1,19 +1,97 @@
-import os
+import random
 
-import words
+list_of_words = ["Computer",
+                 "Telephone",
+                 "Laptop",
+                 "Python",
+                 "JavaScript",
+                 "Monitor",
+                 "Gloucester",
+                 "Turnip",
+                 "Carrot"]
 
 
-# Asks the player there name and stores it, then says hello to them.
-username = input("What is your name? ")
-print("Hello " + username, "\nWelcome to a game of Hangman!")
+def select_random_word():
+    """
+        Returns a random word from a pre-defined list
+    """
+    return random.choice(list_of_words)
 
-program_loop = True
-while program_loop:
-    # Plays Hangman
-    words.play_hangman()
 
-    # Asks if the player wants to play again, and ends the loop if they don't
-    play_again = input("Would you like to play again? (y or n): ")
+def check_players_guess(word_to_guess, guess, current_guess_state, players_guesses):
+    """
 
-    if play_again.lower() != "y":
-        program_loop = False
+    """
+    turn_result = "Wrong"
+
+    if guess in players_guesses:
+        turn_result = "Repeat"
+    else:
+        for idx, x in enumerate(word_to_guess):
+            if guess == x or guess == x.swapcase():
+                current_guess_state[idx] = x
+                turn_result = "Correct"
+
+    return current_guess_state, turn_result
+
+
+def print_current_game_state(length_of_word_to_guess, current_guess_state, previous_guess=None):
+    """
+
+    """
+    print("The word is", length_of_word_to_guess, "characters long.")
+    print("The current game state is:")
+    print_current_guess_state(current_guess_state)
+    return
+
+
+def print_current_guess_state(current_guess_state):
+    """
+
+    """
+    print(" ".join(current_guess_state))
+    return
+
+
+def play_hangman():
+    # Game variables
+    amount_of_lives = 10
+
+    # Gets a random word and calculates the length of the random word
+    word_to_guess = select_random_word()
+    length_of_word_to_guess = len(word_to_guess)
+    # Sets the current game state as a string of _, the amount of underscores is the length of the random word.
+    current_guess_state = list("_" * length_of_word_to_guess)
+
+    # List to hold the users guesses
+    players_guesses = []
+    # While loop for while a game is running
+    game_loop = True
+    while game_loop:
+        print_current_game_state(length_of_word_to_guess, current_guess_state)
+
+        # Gets input from the player
+        players_guess = input("Guess a letter. ")
+        # Checks the players guess
+        current_guess_state, turn_result = check_players_guess(word_to_guess, players_guess, current_guess_state, players_guesses)
+        # Appends the guess to the list of already chosen guesses.
+        players_guesses.append(players_guess)
+
+        # Checks the result of the turn
+        if turn_result == "Correct":
+            print("You were correct!")
+        elif turn_result == "Repeat":
+            print("You used the letter '", players_guess, "' already.")
+        elif turn_result == "Wrong":
+            print("You were incorrect! You lose a life!")
+            amount_of_lives -= 1
+            # Checks if the user has any lives left
+            if amount_of_lives <= 0:
+                print("You have run out of lives.")
+                print("Game Over")
+                game_loop = False
+
+        # Checks if the the entire word is correctly guessed
+        if "".join(current_guess_state) == word_to_guess:
+            print("You have Won!")
+            game_loop = False
