@@ -1,5 +1,8 @@
 import random
 
+from colours import Colours
+
+
 list_of_words = ["Computer",
                  "Telephone",
                  "Laptop",
@@ -24,10 +27,10 @@ def check_players_guess(word_to_guess, guess, current_guess_state, players_guess
     """
     turn_result = "Wrong"
 
-    if guess in players_guesses:
-        turn_result = "Repeat"
-    elif is_input_invalid(guess):
+    if is_input_invalid(guess):
         turn_result = "Invalid"
+    elif guess in players_guesses:
+        turn_result = "Repeat"
     else:
         for idx, x in enumerate(word_to_guess):
             if guess == x or guess == x.swapcase():
@@ -37,11 +40,14 @@ def check_players_guess(word_to_guess, guess, current_guess_state, players_guess
     return current_guess_state, turn_result
 
 
-def print_current_game_state(length_of_word_to_guess, current_guess_state, previous_guess=None):
+def print_current_game_state(length_of_word_to_guess, current_guess_state, amount_of_lives, previous_guess):
     """
 
     """
+    print("You have", amount_of_lives, "lives left.")
     print("The word is", length_of_word_to_guess, "characters long.")
+    if previous_guess is not None:
+        print("Your previous guess was", previous_guess)
     print("The current game state is:")
     print_current_guess_state(current_guess_state)
     return
@@ -72,12 +78,14 @@ def play_hangman():
     # Sets the current game state as a string of _, the amount of underscores is the length of the random word.
     current_guess_state = list("_" * length_of_word_to_guess)
 
-    # List to hold the users guesses
+    # Holds the players guess and every guess so far.
+    players_guess = None
     players_guesses = []
+
     # While loop for while a game is running
     game_loop = True
     while game_loop:
-        print_current_game_state(length_of_word_to_guess, current_guess_state)
+        print_current_game_state(length_of_word_to_guess, current_guess_state, amount_of_lives, players_guess)
 
         # Gets input from the player
         players_guess = input("Guess a letter. ")
@@ -94,8 +102,9 @@ def play_hangman():
         elif turn_result == "Invalid":
             print("You entered an invalid guess, you must only input a single character which must be a letter.")
         elif turn_result == "Wrong":
-            print("You were incorrect! You lose a life!")
+            print(Colours.red + "You were incorrect! You lose a life!" + Colours.reset)
             amount_of_lives -= 1
+
             # Checks if the user has any lives left
             if amount_of_lives <= 0:
                 print("You have run out of lives.")
@@ -106,3 +115,6 @@ def play_hangman():
         if "".join(current_guess_state) == word_to_guess:
             print("You have Won!")
             game_loop = False
+
+        # Prints a line of #, makes terminal output look better.
+        print("###########################")

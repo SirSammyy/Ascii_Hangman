@@ -1,8 +1,9 @@
 import hangman
+from colours import Colours
 
 # Asks the player there name and stores it, then says hello to them.
 username = input("What is your name? ")
-print("Hello " + username, "\nWelcome to a game of Hangman!")
+print(Colours.green + "Hello " + username, Colours.reset + Colours.red, "\nWelcome to a game of Hangman!", Colours.reset)
 
 program_loop = True
 while program_loop:
