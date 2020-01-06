@@ -1,5 +1,3 @@
-import os
-
 import hangman
 
 # Asks the player there name and stores it, then says hello to them.
