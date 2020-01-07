@@ -14,6 +14,59 @@ list_of_words = ["Computer",
                  "Carrot"]
 
 
+
+HANGMANPICS = ['''
+  +---+
+  |   |
+      |
+      |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+      |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+  |   |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+ /|   |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ /    |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ / \  |
+      |
+=========''']
+
+
 def select_random_word():
     """
         Returns a random word from a pre-defined list
@@ -70,7 +123,7 @@ def is_input_invalid(user_input):
 
 def play_hangman():
     # Game variables
-    amount_of_lives = 10
+    amount_of_lives = len(HANGMANPICS) - 1
 
     # Gets a random word and calculates the length of the random word
     word_to_guess = select_random_word()
@@ -102,6 +155,7 @@ def play_hangman():
         elif turn_result == "Invalid":
             print("You entered an invalid guess, you must only input a single character which must be a letter.")
         elif turn_result == "Wrong":
+            print(HANGMANPICS[-amount_of_lives])
             print(Colours.red + "You were incorrect! You lose a life!" + Colours.reset)
             amount_of_lives -= 1
 
